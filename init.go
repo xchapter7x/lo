@@ -20,7 +20,7 @@ func init() {
 		logging.SetLevel(logLevel, LOG_MODULE)
 
 	} else {
-		logging.SetLevel(logging.DEBUG, LOG_MODULE)
+		logging.SetLevel(logging.INFO, LOG_MODULE)
 	}
 	logging.SetFormatter(logging.GlogFormatter)
 	G = logging.MustGetLogger(LOG_MODULE)
