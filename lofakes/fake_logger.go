@@ -63,14 +63,6 @@ type FakeLogger struct {
 		format string
 		args   []interface{}
 	}
-	IsEnabledForStub        func(level Level) bool
-	isEnabledForMutex       sync.RWMutex
-	isEnabledForArgsForCall []struct {
-		level Level
-	}
-	isEnabledForReturns struct {
-		result1 bool
-	}
 	NoticeStub        func(args ...interface{})
 	noticeMutex       sync.RWMutex
 	noticeArgsForCall []struct {
@@ -92,11 +84,6 @@ type FakeLogger struct {
 	panicfArgsForCall []struct {
 		format string
 		args   []interface{}
-	}
-	SetBackendStub        func(backend LeveledBackend)
-	setBackendMutex       sync.RWMutex
-	setBackendArgsForCall []struct {
-		backend LeveledBackend
 	}
 	WarningStub        func(args ...interface{})
 	warningMutex       sync.RWMutex
@@ -346,38 +333,6 @@ func (fake *FakeLogger) InfofArgsForCall(i int) (string, []interface{}) {
 	return fake.infofArgsForCall[i].format, fake.infofArgsForCall[i].args
 }
 
-func (fake *FakeLogger) IsEnabledFor(level Level) bool {
-	fake.isEnabledForMutex.Lock()
-	fake.isEnabledForArgsForCall = append(fake.isEnabledForArgsForCall, struct {
-		level Level
-	}{level})
-	fake.isEnabledForMutex.Unlock()
-	if fake.IsEnabledForStub != nil {
-		return fake.IsEnabledForStub(level)
-	} else {
-		return fake.isEnabledForReturns.result1
-	}
-}
-
-func (fake *FakeLogger) IsEnabledForCallCount() int {
-	fake.isEnabledForMutex.RLock()
-	defer fake.isEnabledForMutex.RUnlock()
-	return len(fake.isEnabledForArgsForCall)
-}
-
-func (fake *FakeLogger) IsEnabledForArgsForCall(i int) Level {
-	fake.isEnabledForMutex.RLock()
-	defer fake.isEnabledForMutex.RUnlock()
-	return fake.isEnabledForArgsForCall[i].level
-}
-
-func (fake *FakeLogger) IsEnabledForReturns(result1 bool) {
-	fake.IsEnabledForStub = nil
-	fake.isEnabledForReturns = struct {
-		result1 bool
-	}{result1}
-}
-
 func (fake *FakeLogger) Notice(args ...interface{}) {
 	fake.noticeMutex.Lock()
 	fake.noticeArgsForCall = append(fake.noticeArgsForCall, struct {
@@ -470,29 +425,6 @@ func (fake *FakeLogger) PanicfArgsForCall(i int) (string, []interface{}) {
 	fake.panicfMutex.RLock()
 	defer fake.panicfMutex.RUnlock()
 	return fake.panicfArgsForCall[i].format, fake.panicfArgsForCall[i].args
-}
-
-func (fake *FakeLogger) SetBackend(backend LeveledBackend) {
-	fake.setBackendMutex.Lock()
-	fake.setBackendArgsForCall = append(fake.setBackendArgsForCall, struct {
-		backend LeveledBackend
-	}{backend})
-	fake.setBackendMutex.Unlock()
-	if fake.SetBackendStub != nil {
-		fake.SetBackendStub(backend)
-	}
-}
-
-func (fake *FakeLogger) SetBackendCallCount() int {
-	fake.setBackendMutex.RLock()
-	defer fake.setBackendMutex.RUnlock()
-	return len(fake.setBackendArgsForCall)
-}
-
-func (fake *FakeLogger) SetBackendArgsForCall(i int) LeveledBackend {
-	fake.setBackendMutex.RLock()
-	defer fake.setBackendMutex.RUnlock()
-	return fake.setBackendArgsForCall[i].backend
 }
 
 func (fake *FakeLogger) Warning(args ...interface{}) {
