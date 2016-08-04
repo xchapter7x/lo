@@ -11,7 +11,7 @@ const (
 )
 
 var (
-	G logger
+	G Logger
 )
 
 type Logger interface {
